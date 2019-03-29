@@ -1,0 +1,12 @@
+.topHeader{
+     background-color:#808080;
+     padding: 20px;
+     margin-bottom: 20px;
+}
+
+.topHeader .button {
+margin-right: 15px !important;
+}
+.auto{
+    width: auto !important;
+}
