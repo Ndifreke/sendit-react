@@ -18,7 +18,8 @@
     "url-loader": "^1.1.2"
   },
   "scripts": {
-    "test": "jest index.js",
+    "coveralls": "jest index.js --coverage && cat ./__tests__/coverage/lcov.info | coveralls",
+    "test": "jest index.js --coverage",
     "watch": "webpack -w -q",
     "server": "node ./server.js",
     "start:prod": "nodemon --exec babel-node server/app.js",
@@ -36,6 +37,7 @@
     "@babel/runtime": "^7.3.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.5",
+    "coveralls": "^3.0.3",
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
