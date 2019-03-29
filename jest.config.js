@@ -9,13 +9,6 @@ const { shallow, mount } = Enzyme;
 module.exports = {
     rootDir: path.join(__dirname, "__tests__"),
     globals: {
-        // fetch: async function () {
-        //     return {
-        //         json: async () => {
-        //             return [{},{}];
-        //         }
-        //     }
-        // },
         React,
         shallow,
         mount,

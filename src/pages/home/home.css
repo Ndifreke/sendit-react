@@ -1,0 +1,7 @@
+bottomItem {
+  position: absolute;
+  bottom: 0px;
+  background: seashell;
+  display: flex;
+  opacity: 0.9;
+}

@@ -55,12 +55,28 @@ module.exports = {
                 use: ['babel-loader'],
                 exclude: /node_modules/,
             },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(png|svg|jpg|gif|eot|ttf|woff|woff2)$/,
+                use: ['file-loader']
+            },
+            {
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                use: ["url-loader"]
+            }
         ]
     },
     resolve: {
         extensions: [".js", ".jsx"],
         alias: {
-            pages: path.join(src, 'pages')
+            "@pages": path.join(src, 'pages'),
+            "@asset": path.join(src, "asset"),
+            "@images": path.join(src, "asset/images"),
+            "@common": path.join(src, "pages/common"),
+            "@style": path.join(src, "asset/style")
         }
     },
     plugins: [htmlPluginConfig],
