@@ -6,7 +6,7 @@ const styles = {
   buttonContainer: ['ui right aligned container auto'].join(' '),
   button: ['ui mini inverted standard button']
 };
- 
+
 function Header() {
   return (
     <div className="ui topHeader">
@@ -15,7 +15,7 @@ function Header() {
           <button className={styles.button}>Login</button>
         </Link>
 
-        <Link to="/login">
+        <Link to="/signup">
           <button className={styles.button}>Signup</button>
         </Link>
       </div>
