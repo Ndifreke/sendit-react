@@ -1,0 +1,10 @@
+.ui.segment:last-child {
+  max-width: 400px !important;
+  margin-top: 10em;
+}
+.show {
+  display: block !important;
+}
+.hide {
+  display: none !important;
+}

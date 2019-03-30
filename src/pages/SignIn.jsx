@@ -1,130 +1,106 @@
-import React from "react";
-import "@asset/style/main.css";
-import "@asset/style/shared.css";
-import UIBuilder from "@asset/script/UIBuilder"
-import login from "@asset/script/authLogin"
+import React, { Fragment } from 'react';
+import '@style/forms.css';
+import ExternalPage from '@common/ExternalPage';
+// import Loader from '@common/Loader';
+import {
+  validateEmail,
+  validatePassword,
+  styleInput,
+  styleMessage
+} from '@script/util';
+// import UIBuilder from "@asset/script/UIBuilder"
+// import login from "@asset/script/authLogin"
 
 class SignIn extends React.Component {
+  
+  state = {
+    password: '',
+    email: '',
+    isEmail: true,
+    isPassword: true,
+    errorMessages: {
+      password: null,
+      email: null
+    }
+  };
 
+  passwordChange = (event) => {
+    const password = event.target.value;
+    this.setState(({ errorMessages }) => {
+      const isPassword = validatePassword(password);
+      errorMessages.password = isPassword
+        ? null
+        : 'Password length is not valid';
+      return { password, isPassword, errorMessages };
+    });
+  };
 
-  ()=>{
-    <div class="ui placeholder segment">
-  <div class="ui two column very relaxed stackable grid">
-    <div class="column">
-      <div class="ui form">
-        <div class="field">
-          <label>Username</label>
-          <div class="ui left icon input">
-            <input type="text" placeholder="Username">
-            <i class="user icon"></i>
-          </div>
-        </div>
-        <div class="field">
-          <label>Password</label>
-          <div class="ui left icon input">
-            <input type="password">
-            <i class="lock icon"></i>
-          </div>
-        </div>
-        <div class="ui blue submit button">Login</div>
-      </div>
-    </div>
-    <div class="middle aligned column">
-      <div class="ui big button">
-        <i class="signup icon"></i>
-        Sign Up
-      </div>
-    </div>
-  </div>
-  <div class="ui vertical divider">
-    Or
-  </div>
-</div>
-  }
+  emailChange = (event) => {
+    const email = event.target.value;
+    this.setState(({ errorMessages }) => {
+      const isEmail = validateEmail(email);
+      errorMessages.email = isEmail
+        ? null
+        : 'Email should be in inform of user@domain.com';
+      return { email, isEmail, errorMessages };
+    });
+  };
+
   render() {
+    const { isPassword, isEmail, password, email, errorMessages } = this.state;
     return (
-      <div>
-        <script type="text/javascript"> {UIBuilder} </script>
-        <script type="text/javascript"> {login} </script>
+      <Fragment>
+        <ExternalPage />
 
-        <div className="fixed-centered bounce" id='wait-animation'>
-          <svg className='wait-spin' width='46' height='46'>
-            <circle className='c1' cx='23px' cy='23px' r='9' fill='gray' strokeWidth='3' />
-            <g fill='orange'>
-              <circle cx='4' cy='23' r='4' />
-              <circle cx='23' cy='4' r='4' />
-              <circle cx='42' cy='23' r='4' />
-              <circle cx='23' cy='42' r='4' />
-            </g>
-          </svg>
-          <div className="wait-message">
-            <strong>Connecting .... </strong>
+        <div className="ui container segment">
+          <div className="ui header center aligned large">
+            Sign into SendIt Account
           </div>
-        </div>
 
-        <div className="viewport">
-          <span id="signout"></span>
-
-          <header>
-            <div id="logo">
-              <a href='../index.html'> </a>
-            </div>
-            <nav className="positon-bottom-right">
-              <ul>
-                <li id="navigation-list">
-                  <a href="./signup.html" className="active-btn botton">
-                    SIGN UP </a>
-                </li>
-              </ul>
-            </nav>
-          </header>
-
-
-
-          <main id="main">
-            <div style={{ marginTop: "68px" }}>
-              <div id="loginUI" className="elevate">
-
-                <span id='message-alert'>#</span>
-
-                <h2 className="align-center"> Sign into SendIt Account </h2>
-
-
-                <form className="centered" method='POST' name='login'>
-                  <fieldset >
-                    <legend> <strong>Email </strong> </legend>
-                    <input type="email" name="email" className='fit-width centered' placeholder="new@emai.com"
-                      required />
-                  </fieldset>
-                  <fieldset >
-                    <legend><strong>Password</strong></legend>
-                    <input type="password" name='password' className='fit-width centered'
-                      placeholder="password" value='password' required />
-                  </fieldset>
-
-                  <div id='loader'>
-                    <svg className='wait-spin' width='46' height='46'>
-                      <circle className='c1' cx='23px' cy='23px' r='3' fill='gray' strokeWidth='3' />
-                      <g fill='orange'>
-                        <circle cx='14' cy='23' r='3' />
-                        <circle cx='23' cy='14' r='3' />
-                        <circle cx='32' cy='23' r='3' />
-                        <circle cx='23' cy='32' r='3' />
-                      </g>
-                    </svg>
-                  </div>
-                  <input type="button" name='submitButton' className="prim-btn botton" value='Continue' />
-                </form>
+          <form className="ui form">
+            <div className={styleInput(isEmail)}>
+              <label> Email </label>
+              <div className="ui fluid input">
+                <input
+                  value={email}
+                  onChange={this.emailChange}
+                  type="email"
+                  placeholder="user@email.com"
+                />
               </div>
-
             </div>
 
-          </main>
+            <div className={styleInput(isPassword)}>
+              <label>Password </label>
+              <div className="ui fluid input">
+                <input
+                  onChange={this.passwordChange}
+                  value={password}
+                  type="password"
+                  placeholder="xxxxxxxxxxxx"
+                />
+              </div>
+            </div>
 
+            <div className={styleMessage(isEmail && isPassword)}>
+              <ul>
+                <li>{errorMessages.password}</li>
+                <li>{errorMessages.email}</li>
+              </ul>
+            </div>
 
+            <div style={{ textAlign: 'center' }} className="show">
+              {/* <Loader size={1} /> */}
+              <br />
+              <button className="ui orange fluid button aligned center">
+                Sign in
+              </button>
+            </div>
+          </form>
         </div>
-      </div>
-    )
+      </Fragment>
+    );
   }
 }
-export default SignIn;
+export default SignIn ;
+// export default withRouter(SignIn);

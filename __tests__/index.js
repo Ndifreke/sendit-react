@@ -1,8 +1,3 @@
-
-
-describe("do someting", function(){
-it("should pwss", function(){
-  expect("josual").toEqual("josual");
-})
-})
+import "./pages/Signin.test";
+import "./pages/ExternalPages.test";
 

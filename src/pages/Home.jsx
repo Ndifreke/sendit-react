@@ -6,12 +6,12 @@ import scale from '@images/scale.svg';
 import money from '@images/money.svg';
 import Header from '@common/Header';
 import 'semantic-ui-css/semantic.min.css';
+import ExternalPage from '@common/ExternalPage';
+
 class Home extends React.Component {
   render() {
     return (
-      <div>
-        <Header />
-
+      <ExternalPage>
         <section id="home-content">
           <p style={{ height: '10%' }} />
 
@@ -57,9 +57,8 @@ class Home extends React.Component {
               </p>
             </div>
           </div>
-
         </section>
-      </div>
+      </ExternalPage>
     );
   }
 }
