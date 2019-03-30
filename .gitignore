@@ -3,5 +3,4 @@ build
 dist
 .env
 */v1.jsx
-__tests___/
-/__tests___
+coverage

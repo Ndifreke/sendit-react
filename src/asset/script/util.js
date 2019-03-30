@@ -3,8 +3,8 @@ export const validateEmail = (input) => {
   return emailRegex.test(String(input).toLowerCase());
 };
 
-export const validatePhone = (input) => {
-  /^(\d){12}$/;
+export const validateMobile = (input) => {
+  return /^(\d){11}$/.test(input);
 };
 
 export const validateName = (input) => {

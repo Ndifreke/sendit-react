@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import '@style/forms.css';
 import ExternalPage from '@common/ExternalPage';
-// import Loader from '@common/Loader';
+import Input from '@common/Input';
+import Loading from '@common/Loading';
 import {
   validateEmail,
   validatePassword,
@@ -12,7 +13,6 @@ import {
 // import login from "@asset/script/authLogin"
 
 class SignIn extends React.Component {
-  
   state = {
     password: '',
     email: '',
@@ -58,29 +58,23 @@ class SignIn extends React.Component {
           </div>
 
           <form className="ui form">
-            <div className={styleInput(isEmail)}>
-              <label> Email </label>
-              <div className="ui fluid input">
-                <input
-                  value={email}
-                  onChange={this.emailChange}
-                  type="email"
-                  placeholder="user@email.com"
-                />
-              </div>
-            </div>
+            {Input({
+              hasErrors: isEmail,
+              label: 'Email',
+              value: email,
+              onChange: this.emailChange,
+              type: 'email',
+              placeholder: 'user@email.com'
+            })}
 
-            <div className={styleInput(isPassword)}>
-              <label>Password </label>
-              <div className="ui fluid input">
-                <input
-                  onChange={this.passwordChange}
-                  value={password}
-                  type="password"
-                  placeholder="xxxxxxxxxxxx"
-                />
-              </div>
-            </div>
+            {Input({
+              hasErrors: isPassword,
+              label: 'Password',
+              onChange: this.passwordChange,
+              value: password,
+              type: 'password',
+              placeholder: 'xxxxxxxxxxxx'
+            })}
 
             <div className={styleMessage(isEmail && isPassword)}>
               <ul>
@@ -102,5 +96,4 @@ class SignIn extends React.Component {
     );
   }
 }
-export default SignIn ;
-// export default withRouter(SignIn);
+export default SignIn;
