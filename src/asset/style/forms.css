@@ -1,6 +1,7 @@
 .ui.segment:last-child {
   max-width: 400px !important;
-  margin-top: 10em;
+  margin-top: 5em;
+  margin-bottom: 3em;
 }
 .show {
   display: block !important;
