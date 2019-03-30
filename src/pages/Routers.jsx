@@ -1,14 +1,15 @@
 import React from 'react';
-import { Route, Switch, Router } from 'react-router-dom';
-import Home from '@pages/Home';
-import SignIn from '@pages/SignIn';
+import { Route, Switch } from 'react-router-dom';
+import { HomePage } from '@pages/Home';
+import { SignupPage } from '@pages/Signup';
+import { SignInApp } from '@pages/SignIn';
 import { withRouter } from 'react-router-dom';
-
 function MainRouter() {
   return (
-    <Switch>
-      <Route exact path="/" component={withRouter(Home)} />
-      <Route exact path="/login" component={withRouter(SignIn)} />
+    <Switch> 
+      <Route exact path="/" component={withRouter(HomePage)} />
+      <Route exact path="/login" component={withRouter(SignInApp)} />
+      <Route exact path="/signup" component={withRouter(SignupPage)} />
     </Switch>
   );
 }

@@ -4,11 +4,18 @@ import '@style/shared.css';
 import pencil from '@images/pencil.svg';
 import scale from '@images/scale.svg';
 import money from '@images/money.svg';
-import Header from '@common/Header';
 import 'semantic-ui-css/semantic.min.css';
 import ExternalPage from '@common/ExternalPage';
+import { connect } from 'react-redux';
+import action from '@redux/action';
+import connectStore from "@common/connectStore";
 
 class Home extends React.Component {
+  /* Authenticate login on everytime the page is loaded */
+  async componentDidMount() {
+     this.props.dispatch(action.auth(this.props.history));
+  }
+
   render() {
     return (
       <ExternalPage>
@@ -62,5 +69,7 @@ class Home extends React.Component {
     );
   }
 }
+
+export const HomePage = connectStore(Home);
 
 export default Home;

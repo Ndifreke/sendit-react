@@ -26,6 +26,8 @@ module.exports = {
     '^@style(.*)$': '<rootDir>/src/asset/style$1',
     '^@common(.*)$': '<rootDir>/src/pages/common$1',
     '^@asset(.*)$': '<rootDir>/src/asset$1',
-    '^@script(.*)$': '<rootDir>/src/asset/script$1'
+    '^@script(.*)$': '<rootDir>/src/asset/script$1',
+    '^@src(.*)$': '<rootDir>/src$1',
+    '^@redux(.*)$': '<rootDir>/src/redux$1'
   }
 };

@@ -32,7 +32,7 @@ function JSXEntries(jsxList) {
   return entries;
 }
 
-const mode = 'development';
+const mode = true ? 'development' : "production";
 
 module.exports = {
   stats: {
@@ -77,7 +77,9 @@ module.exports = {
       '@images': path.join(src, 'asset/images'),
       '@common': path.join(src, 'pages/common'),
       '@style': path.join(src, 'asset/style'),
-      '@script': path.join(src, 'asset/script')
+      '@script': path.join(src, 'asset/script'),
+      '@src': src,
+      '@redux': path.join(src, 'redux')
     }
   },
   plugins: [htmlPluginConfig],
