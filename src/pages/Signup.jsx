@@ -3,34 +3,71 @@ import '@style/forms.css';
 import ExternalPage from '@common/ExternalPage';
 import Input from '@common/Input';
 import Loading from '@common/Loading';
+import action from '@redux/action';
+import connectStore from '@common/connectStore';
 import {
   validateEmail,
   validatePassword,
-  styleMessage,
   validateName,
-  validateMobile
+  validateMobile,
+  style
 } from '@script/util';
+import { signup } from '@src/api';
 
 class Signup extends React.Component {
   state = {
-    password: '',
-    confirmPassword: '',
-    email: '',
-    firstname: '',
-    surname: '',
-    mobile: '',
+    password: 'mmm',
+    confirmPassword: 'mmm',
+    email: 'make@email.com',
+    firstname: 'bddd',
+    surname: 'eeee',
+    mobile: '00000000000',
     isEmail: true,
     isPassword: true,
     isSamePassword: true,
     isFirstname: true,
     isSurname: true,
     isMobile: true,
+    admin: true,
+    noResponseError: true,
     errorMessages: {
       password: null,
       email: null,
       confirmPassword: null,
-      mobile: null
+      mobile: null,
+      response: null
+    },
+    inFlight: false
+  };
+
+  /* Authenticate login on everytime the page is loaded */
+  async componentDidMount() {
+    this.props.dispatch(action.auth(this.props.history));
+ }
+
+  signup = async (event) => {
+    event.preventDefault();
+    const { firstname, mobile, surname, email, password, admin } = this.state;
+    this.setState({ inFlight: true });
+    const response = await signup({
+      firstname,
+      surname,
+      email,
+      password,
+      mobile,
+      admin
+    });
+    if (response.status !== 201) {
+      this.setState((state) => {
+        state.errorMessages.response = response.message;
+        return { inFlight: false, noResponseError: false };
+      });
+      return;
     }
+    this.setState({ inFlight: false });
+    setTimeout(() => {
+      this.props.history.push('/login');
+    }, 3000);
   };
 
   passwordChange = (event) => {
@@ -89,8 +126,40 @@ class Signup extends React.Component {
       errorMessages.email = isEmail
         ? null
         : 'Email should be in inform of user@domain.com';
-      return { email, isEmail, errorMessages };
+      errorMessages.response = '';
+      return { email, isEmail, errorMessages, noResponseError: true };
     });
+  };
+
+  validateInputs = () => {
+    const {
+      isPassword,
+      isEmail,
+      isFirstname,
+      isSurname,
+      password,
+      confirmPassword,
+      isSamePassword,
+      firstname,
+      surname,
+      email,
+      mobile,
+      isMobile
+    } = this.state;
+    return (
+      isPassword &&
+      isEmail &&
+      isFirstname &&
+      isSurname &&
+      password &&
+      confirmPassword &&
+      isSamePassword &&
+      firstname &&
+      surname &&
+      email &&
+      mobile &&
+      isMobile
+    );
   };
 
   render() {
@@ -107,8 +176,21 @@ class Signup extends React.Component {
       email,
       mobile,
       isMobile,
-      errorMessages
+      errorMessages,
+      inFlight,
+      noResponseError
     } = this.state;
+
+    const inputOk =
+      isEmail &&
+      isPassword &&
+      isFirstname &&
+      isSurname &&
+      isSamePassword &&
+      isMobile &&
+      noResponseError;
+    console.log(errorMessages);
+
     return (
       <Fragment>
         <ExternalPage />
@@ -118,7 +200,7 @@ class Signup extends React.Component {
             Create SendIt Account
           </div>
 
-          <form className="ui form">
+          <form className="ui form" onSubmit={this.signup}>
             {Input({
               hasErrors: isFirstname,
               label: 'First Name',
@@ -172,30 +254,26 @@ class Signup extends React.Component {
               type: 'password',
               placeholder: 'xxxxxxxxxxxx'
             })}
+            {inputOk || !errorMessages.response ? (
+              ''
+            ) : (
+              <div className={style(inputOk).message}>
+                <ul>
+                  <li>{errorMessages.firstname}</li>
+                  <li>{errorMessages.surname}</li>
+                  <li>{errorMessages.email}</li>
+                  <li>{errorMessages.mobile}</li>
+                  <li>{errorMessages.password}</li>
+                  <li>{errorMessages.confirmPassword}</li>
+                  <li>{errorMessages.response}</li>
+                </ul>
+              </div>
+            )}
 
-            <div
-              className={styleMessage(
-                isEmail &&
-                  isPassword &&
-                  isFirstname &&
-                  isSurname &&
-                  isSamePassword &&
-                  isMobile
-              )}>
-              <ul>
-                <li>{errorMessages.firstname}</li>
-                <li>{errorMessages.surname}</li>
-                <li>{errorMessages.email}</li>
-                <li>{errorMessages.mobile}</li>
-                <li>{errorMessages.password}</li>
-                <li>{errorMessages.confirmPassword}</li>
-              </ul>
-            </div>
-
-            <div style={{ textAlign: 'center' }} className="show">
-              <Loading size={1} />
+            <div style={{ textAlign: 'center' }}>
+              <Loading size={1} visible={inFlight} />
               <br />
-              <button className="ui orange fluid button aligned center">
+              <button className={style(this.validateInputs()).button}>
                 sign up
               </button>
             </div>
@@ -205,4 +283,6 @@ class Signup extends React.Component {
     );
   }
 }
+
+export const SignupPage = connectStore(Signup);
 export default Signup;

@@ -16,7 +16,7 @@ function Header() {
         </Link>
 
         <Link to="/signup">
-          <button className={styles.button}>Signup</button>
+          <button className={"last " + styles.button}>Signup</button>
         </Link>
       </div>
     </div>

@@ -1,11 +1,18 @@
 .ui.segment:last-child {
   max-width: 400px !important;
-  margin-top: 5em;
-  margin-bottom: 3em;
+  margin: 5rem auto !important;
 }
+
+@media screen and (max-width: 400px) {
+  .ui.segment:last-child {
+    max-width: 85% !important;
+  }
+}
+
 .show {
   display: block !important;
 }
 .hide {
   display: none !important;
 }
+

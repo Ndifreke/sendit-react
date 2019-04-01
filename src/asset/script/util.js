@@ -31,3 +31,38 @@ const getStyles = () => {
     displayToggle: ['show']
   };
 };
+
+export const style = (status) => {
+  return {
+    field: ((positive) => {
+      return positive ? styleList.field : styleList.fieldError;
+    })(status),
+
+    message: ((positive) => {
+      return positive ? styleList.successMessage : styleList.errorMessage;
+    })(status),
+
+    display: ((positive) => {
+      return positive ? '' : styleList.displayHide;
+    })(status),
+
+    button: ((positive) => {
+      return positive ? styleList.button.active : styleList.button.disbled;
+    })(status)
+  };
+};
+
+const styleList = {
+  field: ['field'].join(' '),
+  fieldError: ['field error'].join(' '),
+  errorMessage: ['ui error message show'].join(' '),
+  successMessage: ['ui success message show'].join(' '),
+  displayHide: ['hide'],
+  button: {
+    active: ['ui orange fluid button aligned center'].join(' '),
+    disbled: ['ui orange disabled fluid button aligned center'].join(" ")
+  }
+};
+
+
+

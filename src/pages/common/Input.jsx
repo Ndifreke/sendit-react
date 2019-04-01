@@ -1,10 +1,10 @@
 import React from 'react';
-import { styleInput } from '@script/util';
+import { styleInput, style } from '@script/util';
 
 function Input(props) {
   const { label, value, onChange, type, placeholder, hasErrors } = props;
   return (
-    <div className={styleInput(hasErrors)}>
+    <div className={style(hasErrors).field}>
       <label> {label} </label>
       <div className="ui fluid input">
         <input
