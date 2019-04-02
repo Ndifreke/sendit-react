@@ -1,5 +1,6 @@
 .topHeader {
-  background-color: #808080;
+  /* background-color: #1B1C1D #808080; */
+  background-color: #1B1C1D;
   padding: 20px 0px !important;
   margin-bottom: 20px;
 }
@@ -10,6 +11,10 @@
       } 
 }
 
+.button{
+  outline: none !important;
+}
+ 
 .topHeader .button {
   margin-right: 15px !important;
 }

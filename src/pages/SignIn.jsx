@@ -7,57 +7,26 @@ import { validateEmail, validatePassword, style } from '@script/util';
 import action from '@redux/action';
 import connectStore from '@common/connectStore';
 import { signin } from '@src/api';
-// import UIBuilder from "@asset/script/UIBuilder"
-// import login from "@asset/script/authLogin"
+import Form from '@common/Forms';
 
 class SignIn extends React.Component {
   state = {
-    password: 'mmm',
-    email: 'make@email.com',
-    isEmail: true,
-    isPassword: true,
-    noResponseError: true,
-    errorMessages: {
-      password: null,
-      email: null,
-      response: null
-    },
-    inFlight: false,
-    loading: true
+    password: '',
+    email: '',
+    inFlight: false
   };
 
-  passwordChange = (event) => {
-    const password = event.target.value;
-    this.setState(({ errorMessages }) => {
-      const isPassword = validatePassword(password);
-      errorMessages.response = null;
-      errorMessages.password = isPassword
-        ? null
-        : 'Password length is not valid';
-      return { password, isPassword, errorMessages };
-    });
-  };
-
-  emailChange = (event) => {
-    const email = event.target.value;
-    this.setState(({ errorMessages }) => {
-      const isEmail = validateEmail(email);
-      errorMessages.response = null;
-      errorMessages.email = isEmail
-        ? null
-        : 'Email should be in inform of user@domain.com';
-      return { email, isEmail, errorMessages };
-    });
-  };
+  passwordChange = (password) => this.setState({ password });
+  emailChange = (email) => this.setState({ email, message: null });
 
   validateInput = () => {
-    const { isPassword, isEmail, password, email } = this.state;
-    return isPassword && isEmail && password && email;
+    const { password, email } = this.state;
+    return validatePassword(password) && validateEmail(email);
   };
 
   /* Authenticate login on everytime the page is loaded */
-  async componentDidMount() {
-    this.props.dispatch(action.auth(this.props.history ));
+  static async componentDidMount() {
+    this.props.dispatch(action.auth(this.props.history));
   }
 
   signin = async (event) => {
@@ -66,100 +35,66 @@ class SignIn extends React.Component {
     if (this.validateInput()) {
       this.setState({ inFlight: true });
       const { email, password } = this.state;
-      let response = '';
-
+      let message = null, response;
       try {
         response = await signin({ email, password });
         if (response.status !== 200) {
           this.setState((state) => {
-            state.errorMessages.response = response.message;
-            return { inFlight: false, noResponseError: true };
+            return { inFlight: false, message: response.message };
           });
           return;
         }
-      } catch (e) {}
-
+      } catch (e) { }
       localStorage.setItem('token', response.token);
       this.setState((state) => {
-        //reroute on successfull login
         setTimeout(() => {
-          this.props.history.push('/signup');
+          this.props.history.push('/parcel');
         }, 3000);
-
-        state.errorMessages.response = response.message;
-        return { inFlight: false };
+        return { inFlight: false, message: response.message};
       });
     }
   };
 
   render() {
-    const {
-      isPassword,
-      isEmail,
-      password,
-      email,
-      inFlight,
-      errorMessages,
-      noResponseError
-    } = this.state;
-    console.log(errorMessages);
-
-    const inputOk =
-      isEmail && isPassword && noResponseError && errorMessages.response;
-
-    const containMessage = isEmail || isPassword || noResponseError;
-    console.log(isEmail, isPassword, noResponseError);
+    const { password, email } = this.state;
 
     return (
       <Fragment>
         <ExternalPage />
-
         <div className="ui container segment">
           <div className="ui header center aligned large">
             Sign into SendIt Account
           </div>
 
-          <form className="ui form" onSubmit={this.signin}>
-            {Input({
-              hasErrors: isEmail,
-              label: 'Email',
-              value: email,
-              onChange: this.emailChange,
-              type: 'email',
-              placeholder: 'user@email.com'
-            })}
-
-            {Input({
-              hasErrors: isPassword,
-              label: 'Password',
-              onChange: this.passwordChange,
-              value: password,
-              type: 'password',
-              placeholder: 'xxxxxxxxxxxx'
-            })}
-
-            {containMessage ? (
-              <div className={style(inputOk).message}>
-                <ul>
-                  <li>{errorMessages.password}</li>
-                  <li>{errorMessages.email}</li>
-                  <li>{errorMessages.response}</li>
-                </ul>
-              </div>
-            ) : (
-              ''
-            )}
-
-            <div style={{ textAlign: 'center' }}>
-              <Loading size={1} visible={inFlight} />
-              <br />
-              <button
-                className={style(this.validateInput()).button}
-                onClick={this.signin}>
-                Sign in
-              </button>
-            </div>
-          </form>
+          <Form
+            alert={this.state.message}
+            onSubmit={this.signin}
+            isReady={this.validateInput()}
+            inFlight={this.state.inFlight}
+            inputList={[
+              {
+                value: email,
+                onChange: this.emailChange,
+                type: 'email',
+                validator: validateEmail,
+                fieldName: 'email',
+                message: 'email should be in form of user@email.com',
+                label: 'Email',
+                value: email,
+                placeholder: 'john@email.com'
+              },
+              {
+                validator: validatePassword,
+                fieldName: 'Password',
+                message: 'invalid password entered',
+                label: 'Password',
+                onChange: this.passwordChange,
+                value: password,
+                type: 'password',
+                placeholder: 'xxxxxxxxxx'
+              }
+            ]}
+          />
         </div>
       </Fragment>
     );
