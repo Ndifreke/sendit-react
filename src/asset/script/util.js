@@ -48,6 +48,10 @@ export const style = (status) => {
 
     button: ((positive) => {
       return positive ? styleList.button.active : styleList.button.disbled;
+    })(status),
+
+    toggleParcel: ((positive) => {
+      const style = positive ? styleList.parcel : styleList.parcel.concat(' hide');
     })(status)
   };
 };
@@ -60,9 +64,7 @@ const styleList = {
   displayHide: ['hide'],
   button: {
     active: ['ui orange fluid button aligned center'].join(' '),
-    disbled: ['ui orange disabled fluid button aligned center'].join(" ")
-  }
+    disbled: ['ui orange disabled fluid button aligned center'].join(' ')
+  },
+  parcel: ['ui equal width aligned padded grid stackable'].join(' ')
 };
-
-
-
