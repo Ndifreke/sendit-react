@@ -56,7 +56,7 @@ class SignIn extends React.Component {
   };
 
   /* Authenticate login on everytime the page is loaded */
-  async componentDidMount() {
+  static async getDerivedStateFromProps() {
     this.props.dispatch(action.auth(this.props.history ));
   }
 
@@ -120,6 +120,7 @@ class SignIn extends React.Component {
           </div>
 
           <form className="ui form" onSubmit={this.signin}>
+          
             {Input({
               hasErrors: isEmail,
               label: 'Email',

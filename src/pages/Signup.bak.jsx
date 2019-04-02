@@ -5,8 +5,6 @@ import Input from '@common/Input';
 import Loading from '@common/Loading';
 import action from '@redux/action';
 import connectStore from '@common/connectStore';
-import Form from "@common/Forms";
- 
 import {
   validateEmail,
   validatePassword,
@@ -43,8 +41,8 @@ class Signup extends React.Component {
   };
 
   /* Authenticate login on everytime the page is loaded */
-  static async getDerivedStateFromProps(props) {
-    // props.dispatch(action.auth(props.history));
+  async static getDerivedStateFromProps() {
+    this.props.dispatch(action.auth(this.props.history));
  }
 
   signup = async (event) => {
@@ -196,23 +194,91 @@ class Signup extends React.Component {
     return (
       <Fragment>
         <ExternalPage />
+
         <div className="ui container segment">
           <div className="ui header center aligned large">
             Create SendIt Account
           </div>
-          <Form
-          inputList={[ 
-              {
+
+          <form className="ui form" onSubmit={this.signup}>
+            {Input({
               hasErrors: isFirstname,
               label: 'First Name',
               onChange: this.lastNameChange,
               value: firstname,
               type: 'text',
               placeholder: 'John'
-            }
-          ]}
-          />
-          </div>
+            })}
+
+            {Input({
+              hasErrors: isSurname,
+              label: 'Surname',
+              onChange: this.surnameChange,
+              value: surname,
+              type: 'text',
+              placeholder: 'Alberto'
+            })}
+
+            {Input({
+              hasErrors: isEmail,
+              label: 'Email',
+              value: email,
+              onChange: this.emailChange,
+              type: 'email',
+              placeholder: 'user@email.com'
+            })}
+
+            {Input({
+              hasErrors: isMobile,
+              label: 'Mobile',
+              value: mobile,
+              onChange: this.changeMobile,
+              type: 'tel',
+              placeholder: '01234567890'
+            })}
+
+            {Input({
+              hasErrors: isPassword,
+              label: 'Password',
+              onChange: this.passwordChange,
+              value: password,
+              type: 'password',
+              placeholder: 'xxxxxxxxxxxx'
+            })}
+
+            {Input({
+              hasErrors: isSamePassword,
+              label: 'Confirm Password',
+              onChange: this.onConfirmPassword,
+              value: confirmPassword,
+              type: 'password',
+              placeholder: 'xxxxxxxxxxxx'
+            })}
+            {inputOk || !errorMessages.response ? (
+              ''
+            ) : (
+              <div className={style(inputOk).message}>
+                <ul>
+                  <li>{errorMessages.firstname}</li>
+                  <li>{errorMessages.surname}</li>
+                  <li>{errorMessages.email}</li>
+                  <li>{errorMessages.mobile}</li>
+                  <li>{errorMessages.password}</li>
+                  <li>{errorMessages.confirmPassword}</li>
+                  <li>{errorMessages.response}</li>
+                </ul>
+              </div>
+            )}
+
+            <div style={{ textAlign: 'center' }}>
+              <Loading size={1} visible={inFlight} />
+              <br />
+              <button className={style(this.validateInputs()).button}>
+                sign up
+              </button>
+            </div>
+          </form>
+        </div>
       </Fragment>
     );
   }
