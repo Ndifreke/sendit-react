@@ -32,8 +32,8 @@ function JSXEntries(jsxList) {
   return entries;
 }
 
-const mode = true ? 'development' : "production";
-
+const mode = process.env.SETUP || "development";
+console.log(mode,'>>>>>>>>')
 module.exports = {
   stats: {
     assets: true,
