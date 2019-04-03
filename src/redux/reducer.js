@@ -2,14 +2,17 @@ import actions from './action';
 const TYPE = actions.TYPES;
 
 const initialState = {
-  isSignup: { status: null, message: null }
+  isSignup: { status: null, message: null },
+  parcels: {
+    list: []
+  }
 };
 
 const dispatch = (state = initialState, action) => {
   console.log(action.type);
   switch (action.type) {
     case TYPE.auth:
-      // if (action.isLogin) action.history.push('/login');
+      if (action.isLogin) action.history.push('/parcel');
       break;
 
     case TYPE.flight:
@@ -21,8 +24,11 @@ const dispatch = (state = initialState, action) => {
 
     case TYPE.signin:
       const isSignin = action.response;
-      console.log(action);
       return { isSignin };
+
+    case TYPE.parcels:
+      const { status, parcels } = action.response;
+      return { parcels: { list: parcels, status } };
 
     default:
       return state;

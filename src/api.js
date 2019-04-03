@@ -4,7 +4,6 @@ class SendIt {
     for (const k in data) {
       urlEncoded += `${k}=${data[k]}&`;
     }
-    console.log(urlEncoded)
     let payload = {
       method: 'POST',
       body: urlEncoded || null,

@@ -4,7 +4,6 @@ import '@style/shared.css';
 import pencil from '@images/pencil.svg';
 import scale from '@images/scale.svg';
 import money from '@images/money.svg';
-import 'semantic-ui-css/semantic.min.css';
 import ExternalPage from '@common/ExternalPage';
 import { connect } from 'react-redux';
 import action from '@redux/action';
