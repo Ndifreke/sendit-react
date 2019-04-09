@@ -1,0 +1,10 @@
+.ui.right.attached.button{
+  display: none;
+  position: fixed;
+  top: 1.0em;
+  left: 0px;
+  width: 40px;
+  height: auto;
+  white-space: nowrap;
+  z-index: 20;
+}

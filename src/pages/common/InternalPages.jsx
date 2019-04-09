@@ -1,15 +1,20 @@
 import React, { Fragment } from 'react';
-import SideMenu from '@common/SideMenu';
-import Header from '@common/Header';
+import SecureHeader from '@common/SecureHeader';
 
 class InternalPage extends React.Component {
+  showSideMenu = () => {
+    $('.ui.sidebar').sidebar('toggle');
+  };
+
   render() {
-    return(
-    <Fragment>
-      <Header />
-      <SideMenu />
-    </Fragment>
-    )
+    return (
+      <Fragment>
+        <SecureHeader />
+        <div className="ui mini black launch right attached fixed button" onClick={this.showSideMenu} >
+        <i className="bars icon large" />
+        </div>
+      </Fragment>
+    );
   }
 }
 

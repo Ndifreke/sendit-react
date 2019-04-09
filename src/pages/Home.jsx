@@ -4,7 +4,7 @@ import '@style/shared.css';
 import pencil from '@images/pencil.svg';
 import scale from '@images/scale.svg';
 import money from '@images/money.svg';
-import ExternalPage from '@common/ExternalPage';
+import Header from '@common/Header';
 import { connect } from 'react-redux';
 import action from '@redux/action';
 import connectStore from "@common/connectStore";
@@ -12,12 +12,13 @@ import connectStore from "@common/connectStore";
 class Home extends React.Component {
   /* Authenticate login on everytime the page is loaded */
   async componentDidMount() {
-     this.props.dispatch(action.auth(this.props.history));
+    //  this.props.dispatch(action.auth(this.props.history));
   }
 
   render() {
     return (
-      <ExternalPage>
+      <Fragment>
+      <Header/>
         <section id="home-content">
           <p style={{ height: '10%' }} />
 
@@ -64,7 +65,7 @@ class Home extends React.Component {
             </div>
           </div>
         </section>
-      </ExternalPage>
+  </Fragment>
     );
   }
 }

@@ -5,30 +5,32 @@ const initialState = {
   isSignup: { status: null, message: null },
   parcels: {
     list: []
-  }
+  },
+  isLogin: false
 };
 
 const dispatch = (state = initialState, action) => {
-  console.log(action.type);
   switch (action.type) {
     case TYPE.auth:
       if (action.isLogin) action.history.push('/parcel');
-      break;
-
+      return { ...state, isLogin: action.isLogin };
     case TYPE.flight:
       return { inFlight: true, ...state };
 
     case TYPE.signup:
       const isSignup = action.response;
-      return { isSignup };
+      return { ...state, isSignup };
 
     case TYPE.signin:
-      const isSignin = action.response;
-      return { isSignin };
+      const isLogin = action.response;
+      return { ...state, isLogin };
+
+    case TYPE.hasLogin:
+      return { ...state, isLogin: action.isLogin };
 
     case TYPE.parcels:
       const { status, parcels } = action.response;
-      return { parcels: { list: parcels, status } };
+      return { ...state, parcels: { list: parcels, status } };
 
     default:
       return state;

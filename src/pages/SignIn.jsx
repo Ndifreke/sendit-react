@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
 import '@style/forms.css';
-import ExternalPage from '@common/ExternalPage';
-import Input from '@common/Input';
+// import ExternalPage from '@common/ExternalPage';
+// import Input from '@common/Input';
 import Loading from '@common/Loading';
 import { validateEmail, validatePassword, style } from '@script/util';
 import action from '@redux/action';
 import connectStore from '@common/connectStore';
 import { signin } from '@src/api';
 import Form from '@common/Forms';
+import Header from '@common/Header';
 
 class SignIn extends React.Component {
   state = {
@@ -46,6 +47,7 @@ class SignIn extends React.Component {
         }
       } catch (e) { }
       localStorage.setItem('token', response.token);
+      this.props.dispatch(action.hasLogin);
       this.setState((state) => {
         setTimeout(() => {
           this.props.history.push('/parcel');
@@ -60,7 +62,7 @@ class SignIn extends React.Component {
 
     return (
       <Fragment>
-        <ExternalPage />
+        <Header/>
         <div className="ui container segment">
           <div className="ui header center aligned large">
             Sign into SendIt Account
@@ -80,7 +82,6 @@ class SignIn extends React.Component {
                 fieldName: 'email',
                 message: 'email should be in form of user@email.com',
                 label: 'Email',
-                value: email,
                 placeholder: 'john@email.com'
               },
               {

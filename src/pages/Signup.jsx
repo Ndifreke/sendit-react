@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import '@style/forms.css';
-import ExternalPage from '@common/ExternalPage';
+// import ExternalPage from '@common/ExternalPage';
 import connectStore from '@common/connectStore';
 import Form from '@common/Forms';
+import Header from '@common/Header';
 
 import {
   validateEmail,
@@ -106,7 +107,7 @@ class Signup extends React.Component {
 
     return (
       <Fragment>
-        <ExternalPage />
+      <Header/>
         <div className="ui container segment">
           <div className="ui header center aligned large">
             Create SendIt Account
@@ -181,7 +182,7 @@ class Signup extends React.Component {
             ]}
           />
         </div>
-      </Fragment>
+ </Fragment>
     );
   }
 }
