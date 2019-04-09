@@ -1,3 +1,20 @@
+export const request = function(url, callback) {
+  const req = new XMLHttpRequest();
+  req.open('GET', url);
+
+  return new Promise((resolve) => {
+    req.onreadystatechange = function() {
+      if (req.status === 200 && req.readyState === 4) {
+        if (callback) {
+          callback(req.responseText);
+        }
+        resolve(req.responseText);
+      }
+    };
+    req.send();
+  });
+}
+
 class SendIt {
   static async request(url, data, override) {
     let urlEncoded = '';
@@ -16,13 +33,14 @@ class SendIt {
     return await fetch(url, init);
   }
 
-  static async get(url) {
+  static async get(url, callback) {
     return SendIt.request(url, null, {
       method: 'GET'
     });
   }
 
-  static async put(url, data) {
+  static async put(url, data, devMode = false) {
+    url = devMode ? `http://localhost:8080${url}` : url;
     return await SendIt.request(url, data, {
       method: 'PUT'
     });

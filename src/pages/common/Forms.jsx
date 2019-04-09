@@ -19,7 +19,6 @@ const FormMessage = (withError, messageList) => {
 
   if (withError) {
     messageList.alert = null;
-    console.log(messageList);
     return message(withError);
   }
   if (messageList.alert) {

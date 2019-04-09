@@ -7,7 +7,6 @@
     "doc": "doc"
   },
   "dependencies": {
-    "webpack": "^4.29.0",
     "babel-jest": "^24.5.0",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
@@ -16,12 +15,14 @@
     "prop-types": "^15.7.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-modal": "^3.8.1",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
-    "url-loader": "^1.1.2"
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.0"
   },
   "scripts": {
     "coveralls": "cat ./coverage/lcov.info | coveralls",
@@ -30,7 +31,7 @@
     "build": "webpack -q",
     "server": "node ./server.js",
     "start:prod": "nodemon --exec babel-node server/app.js",
-    "dev" : "webpack-dev-server -q",
+    "dev": "webpack-dev-server -q",
     "start": "npm run build && node ./server.js"
   },
   "husky": {

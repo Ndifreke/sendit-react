@@ -25,19 +25,6 @@ const option = {
 }
 
 
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('signout').onclick = function(){
-    window.localStorage.removeItem('token');
-  }
-  const menuButton = document.querySelector('.menu-btn');
-  if (menuButton)
-    menuButton.onclick = function () {
-      toggleDisplay('dashboard');
-    };
-
-});
-
-
 /* Set the display of an html element identified by the id or class name passed in as
  * argument. if an arguments contains object. the id field should be the elements id or class
  * and the display property is the type of display. By default an id withoud display is set to
@@ -171,24 +158,6 @@ async function initPage(option) {
   }
 }
 
-
-
-function xmlGet(url, callback) {
-  const req = new XMLHttpRequest();
-  req.open('GET', url);
-
-  return new Promise((resolve) => {
-    req.onreadystatechange = function () {
-      if (req.status === 200 && req.readyState === 4) {
-        if (callback) {
-          callback(req.responseText);
-        }
-        resolve(req.responseText);
-      }
-    };
-    req.send();
-  });
-}
 
 function validEmail(email) {
   const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

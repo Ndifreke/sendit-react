@@ -6,7 +6,8 @@ const TYPES = {
   signup: 'signup',
   flight: 'flight',
   signin: 'signin',
-  parcels: 'parcels'
+  parcels: 'parcels',
+  hasLogin: 'loginSuccess'
 };
 
 const action = {
@@ -30,6 +31,8 @@ const action = {
       dispatch({ type: TYPES.signin, response: { status, message } });
     };
   },
+  hasLogin: { type: TYPES.hasLogin, isLogin: true },
+
   flight: { type: TYPES.flight },
 
   parcels: async (dispatch) => {

@@ -7,3 +7,9 @@
   display: none !important;
 } */
 
+.modal {
+  margin-top: '0px' !important;
+  margin-left: 'auto' !important;
+  margin-right: 'auto' !important;
+}
+
