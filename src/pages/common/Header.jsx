@@ -11,22 +11,6 @@ const styles = {
 import action from '@redux/action';
 import { withRouter } from 'react-router-dom';
 
-// function Header() {
-//   return (
-//     <div className="ui topHeader">
-//       <div className={styles.buttonContainer}>
-//         <Link to="/login">
-//           <button className={styles.button}>Login</button>
-//         </Link>
-
-//         <Link to="/signup">
-//           <button className={"last " + styles.button}>Signup</button>
-//         </Link>
-//       </div>
-//     </div>
-//   );
-// }
-
 class Header extends React.Component {
   async componentDidMount() {
     this.props.dispatch(action.auth(this.props.history));
@@ -36,7 +20,7 @@ class Header extends React.Component {
     const { isLogin, location, history } = this.props;
     const securePath = ['/parcel'];
     if (!isLogin && securePath.indexOf(location.pathname) != -1) {
-      history.push('/login');
+      // history.push('/login');
     }
     return (
       <Fragment>
