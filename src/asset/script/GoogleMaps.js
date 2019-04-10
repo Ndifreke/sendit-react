@@ -1,5 +1,5 @@
 let getLabel;
-import { request } from "@src/api";
+import { request } from '@src/api';
 
 class LocationFinder {
   constructor(maps, lat = 6.552723299999999, lng = 3.3664072) {
@@ -59,7 +59,7 @@ class LocationFinder {
                 ? result.rows[0].elements[0].distance.text
                 : 'Distance Unavailable!';
             resolve(distance);
-            callback(distance);
+            if (callback) callback(distance);
           }
         );
       } catch (e) {
@@ -125,11 +125,11 @@ class LocationFinder {
     });
   }
 
-/**
- * Add click event listener on the map body to retrive the
- * cordinates of any position when the map is clicked. This 
- * cordinates can later be used to reverse code the location namee
- *  */
+  /**
+   * Add click event listener on the map body to retrive the
+   * cordinates of any position when the map is clicked. This
+   * cordinates can later be used to reverse code the location namee
+   *  */
   async positionsOnclick(cb) {
     const self = this;
     return new Promise((resolve) => {
@@ -218,8 +218,8 @@ function initMap() {
 
 function createLabel(cordinate) {
   const positionLabel = document.createElement('div');
-  positionLabel.setAttribute("class", 'position-label');
- 
+  positionLabel.setAttribute('class', 'position-label');
+
   let cord, locationName;
   if ('lat' in cordinate) {
     cord = cordinate;
@@ -235,10 +235,10 @@ function createLabel(cordinate) {
     <span> ${cord.lat} , ${cord.lng} </span>`;
 
   positionLabel.onclick = function() {
-    LocationFinder.captureLabelData({name:locationName[0], cord})
+    LocationFinder.captureLabelData({ name: locationName[0], cord });
     Label.map.placeMarker(cord);
   };
   return positionLabel;
 }
 
-export { LocationFinder, initMap};
+export { LocationFinder, initMap };

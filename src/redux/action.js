@@ -41,7 +41,6 @@ const action = {
       const response = await sendit.get(`${server}/api/v1/users/null/parcels`);
       body = await response.json();
       status = response.status;
-      console.log(body);
       dispatch({
         type: TYPES.parcels,
         response: { parcels: body.response, status }
