@@ -36,7 +36,6 @@ class LocationFinder {
   }
 
   static async requestDistance(origin = '0.0', destination = '0.0', callback) {
-    // console.log(origin)
     const org = origin.split(',');
     const dest = destination.split(',');
 
