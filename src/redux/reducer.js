@@ -6,7 +6,8 @@ const initialState = {
   parcels: {
     list: []
   },
-  isLogin: false
+  isLogin: false,
+  editorOpen: false
 };
 
 const dispatch = (state = initialState, action) => {
@@ -20,6 +21,13 @@ const dispatch = (state = initialState, action) => {
     case TYPE.signup:
       const isSignup = action.response;
       return { ...state, isSignup };
+
+    case TYPE.openEditor:
+      const editorOpen = action.editorOpen;
+      return { ...state, editorOpen };
+
+    case TYPE.closeEditor:
+      return { ...state, editorOpen: action.editorOpen };
 
     case TYPE.signin:
       const isLogin = action.response;

@@ -8,6 +8,7 @@ import Header from '@common/Header';
 class EditableParcel extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       requestEdit: false,
       parcels: [], //list of parcels received from server
@@ -15,14 +16,22 @@ class EditableParcel extends React.Component {
     };
   }
 
-  openEditor = (parcel) => {
-    this.setState({ requestEdit: true, parcel });
+  //Opens the editor window and pass the parcel argument in for editing
+  openForEdit = (parcel) => {
+    this.props.dispatch(action.openEditor);
+    this.setState({ parcel });
+  };
+
+  closeEditor = async () => {
+    console.log('should close editor')
+    this.props.dispatch(action.closeEditor);
+    await this.props.dispatch(action.parcels);
   };
 
   listParcels = () => {
     const { parcels } = this.state;
     return parcels.map((parcel, i) => {
-      return <Parcel openEditor={this.openEditor} parcel={parcel} key={i} />;
+      return <Parcel openForEdit={this.openForEdit} parcel={parcel} key={i} />;
     });
   };
 
@@ -31,21 +40,18 @@ class EditableParcel extends React.Component {
   }
 
   static getDerivedStateFromProps(props) {
-    return { parcels: props.parcels.list };
+    return { parcels: props.parcels.list, requestEdit: props.editorOpen };
   }
 
   render() {
-    const { requestEdit: requestEdit, parcel } = this.state;
-    let requestCreate = false;
-    const { state } = this.props.location;
-    if (state) {
-      requestCreate = state.requestCreate;
-    }
+    const { requestEdit: requestEdit, parcel, requestCreate } = this.state;
     return (
       <Fragment>
         <Header />
         <div className="ui container">
-          {requestCreate || requestEdit ? <ParcelEditor parcel={parcel} /> : null}
+          {requestEdit || requestCreate ? (
+            <ParcelEditor closeEditor={this.closeEditor} parcel={parcel} />
+          ) : null}
           {this.listParcels()}
         </div>
       </Fragment>

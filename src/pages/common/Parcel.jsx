@@ -42,13 +42,13 @@ class Parcel extends React.Component {
   }
 
   static propTypes = {
-    openEditor: PropTypes.func.isRequired,
+    openForEdit: PropTypes.func.isRequired,
     parcel: PropTypes.object.isRequired
   };
 
   onEdit = () => {
-    const { parcel, openEditor } = this.props;
-    openEditor(parcel);
+    const { parcel, openForEdit } = this.props;
+    openForEdit(parcel);
   };
 
   promptDelete = () => {

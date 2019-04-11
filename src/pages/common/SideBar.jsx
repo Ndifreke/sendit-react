@@ -1,20 +1,35 @@
-import React from 'react';
-
+import React, { Fragment } from 'react';
+import action from '@redux/action';
+import connectStore from '@common/connectStore';
 import { Link } from 'react-router-dom';
 
 class SideBar extends React.Component {
+  toggleSideBar = () => {
+    $('.ui.sidebar').sidebar('toggle');
+  };
+
   sideBar = () => {
     return (
-      <div className="ui left vertical menu thin inverted sidebar">
-        <Link
-          to={{
-            pathname: '/parcel',
-            state: { requestCreate: true }
-          }}
-          className="item">
-          Create Article
-        </Link>
-      </div>
+      <Fragment>
+        <div
+          className="ui mini black launch right attached fixed button"
+          onClick={this.toggleSideBar}>
+          <i className="bars icon large" />
+        </div>
+
+        <div className="ui left vertical menu thin inverted sidebar">
+          <Link
+            to={'/parcel'}
+            className="item"
+            onClick={(e) => {
+              this.props.dispatch(action.openEditor);
+              this.toggleSideBar()
+            }}>
+            Create Article
+          </Link>
+        </div>
+
+      </Fragment>
     );
   };
 
@@ -22,4 +37,4 @@ class SideBar extends React.Component {
     return this.sideBar();
   }
 }
-export default SideBar;
+export default connectStore(SideBar);

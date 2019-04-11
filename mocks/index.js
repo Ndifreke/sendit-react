@@ -1,16 +1,19 @@
-module.exports.fetch = async function () {
-return {
-json: async () => {
-return [{},{}];
-}
-}
-},
+const { getDom } = require("./dom");
 
-module.exports.customEvent = function(value){
+(module.exports.fetch = async function() {
   return {
-  target: {
-    value: value
-  }
-}
-}
+    json: async () => {
+      return [{}, {}];
+    }
+  };
+}),
 
+  (module.exports.customEvent = function(value) {
+    return {
+      target: {
+        value: value
+      }
+    };
+  });
+
+  module.exports.getDom = getDom;

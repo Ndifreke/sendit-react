@@ -63,7 +63,7 @@ const styleList = {
   fieldError: ['field error'].join(' '),
   errorMessage: ['ui error message show'].join(' '),
   successMessage: ['ui success message show'].join(' '),
-  displayHide: ['hide'],
+  displayHide: 'hide',
   button: {
     active: ['ui orange fluid button aligned center'].join(' '),
     disbled: ['ui orange disabled fluid button aligned center'].join(' ')

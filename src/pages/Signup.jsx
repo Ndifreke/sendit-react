@@ -80,7 +80,8 @@ class Signup extends React.Component {
       surname,
       email,
       mobile,
-      isSamePassword
+      isSamePassword,
+      confirmPassword,
     } = this.state;
     return (
       validatePassword(password) &&
@@ -88,7 +89,7 @@ class Signup extends React.Component {
       validateName(firstname) &&
       validateName(surname) &&
       validateMobile(mobile) &&
-      isSamePassword
+      confirmPassword === password
     );
   };
 

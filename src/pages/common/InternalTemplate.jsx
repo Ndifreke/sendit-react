@@ -4,7 +4,7 @@ import '@asset/style/header.css';
 import { Link } from 'react-router-dom';
 import '@asset/style/internal.css';
 import { withRouter } from 'react-router-dom';
-import Sidebar from "@common/sidebar"
+import Sidebar from "@common/SideBar"
 import connectStore from '@common/connectStore';
 
 const styles = {
@@ -13,9 +13,6 @@ const styles = {
 };
 
 class InternalPage extends React.Component {
-  showSideMenu = () => {
-    $('.ui.sidebar').sidebar('toggle');
-  };
 
   onSignout = () =>{
     localStorage.setItem('token', null);
@@ -36,11 +33,6 @@ class InternalPage extends React.Component {
               <button className={'last ' + styles.button}>Sign Out</button>
             </Link>
           </div>
-        </div>
-        <div
-          className="ui mini black launch right attached fixed button"
-          onClick={this.showSideMenu}>
-          <i className="bars icon large" />
         </div>
       </Fragment>
     );

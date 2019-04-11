@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import MapWidget from '@common/MapWidget';
 import ParcelSummary from '@common/ParcelSummary';
 import PropTypes from 'prop-types';
+import { createParcel } from '@src/api';
 
 import { LocationFinder, initMap } from '@script/GoogleMaps';
 
@@ -44,7 +45,6 @@ class ParcelEditor extends React.Component {
     super(props);
     this.state = {
       show: true,
-      // ...this.props.parcel,
       parcel: {},
       focusedField: ParcelEditor.FIELD.destination,
       errorList: [],
@@ -70,9 +70,9 @@ class ParcelEditor extends React.Component {
     if (!shortname || shortname.length < 5 || shortname.search(/.+/) === -1) {
       errorList.push(<li>Parcel must have a title</li>);
     }
-    // if (!origin || origin.search(/.+/) === -1 || origin.length < 5) {
-    //   errorList.push(<li>Parcel must have an Origin</li>);
-    // }
+    if (!origin || origin.search(/.+/) === -1 || origin.length < 5) {
+      errorList.push(<li>Parcel must have an Origin</li>);
+    }
     if (
       !destination ||
       destination.search(/.+/) === -1 ||
@@ -80,25 +80,29 @@ class ParcelEditor extends React.Component {
     ) {
       errorList.push(<li>Parcel destination must be provided</li>);
     }
-    // if (
-    //   !description ||
-    //   description.search(/.+/) === -1 ||
-    //   description.length < 10
-    // ) {
-    //   errorList.push(
-    //     <li>Ashort not less than 10 words that describes this parcel</li>
-    //   );
-    // }
+    if (
+      !description ||
+      description.search(/.+/) === -1 ||
+      description.length < 10
+    ) {
+      errorList.push(
+        <li>Ashort not less than 10 words that describes this parcel</li>
+      );
+    }
     this.setState({ errorList });
     const price = distance * 2;
-    return `shortname=${shortname}&destination=${destination}&destination_lat=${destination_lat}\
-&destination_lng=${destination_lng}&description=${description}&origin=${origin}\
-&origin_lat=${origin_lat}&origin_lng=${origin_lng}&weight=${weight}&price=${price}&distance=${distance}`;
+    return this.state.parcel;
   };
 
-  onsubmit = () => {
+  onsubmit = async () => {
     const payLoad = this.validateSubmit();
-    console.log('you cliked submit');
+    const response = await createParcel(payLoad);
+    if (response.status === 201) {
+      this.props.closeEditor();
+    } else {
+      console.log('failed to create');
+    }
+    console.log(response);
   };
 
   static FIELD = {
@@ -265,10 +269,8 @@ class ParcelEditor extends React.Component {
         originPosition,
         destinationPosition
       );
-
       this.setState(({ parcel }) => {
         const price = this.computePrice(distance, parcel.price);
-        console.log(price);
         return { parcel: { ...parcel, distance, price } };
       });
     }
@@ -279,12 +281,10 @@ class ParcelEditor extends React.Component {
     if (/^(\d*\.)?\d+ km$/.test(distance)) {
       multiple = 20;
     }
-    const number = Number(distance.substring(0, /[a-zA-Z]/.exec(distance).index));
+    const number = Number(
+      distance.substring(0, /[a-zA-Z]/.exec(distance).index)
+    );
     return weight ? number * weight * multiple : number * multiple * 100;
-  };
-
-  closeEditor = () => {
-    this.setState({ isEditing: false });
   };
 
   parcelSubmitAction = () => {
@@ -308,12 +308,17 @@ class ParcelEditor extends React.Component {
       isAdmin,
       location
     } = this.state.parcel;
-    console.log(shortname, destination, weight);
+
     const { errorList } = this.state;
     const { onChange } = this;
     const Fields = ParcelEditor.FIELD;
+
     return (
       <Modal isOpen={true} style={deleteModel}>
+        <div style={{ float: 'right' }} onClick={this.props.closeEditor}>
+          <i className="close icon large red pointer" />
+        </div>
+
         <div ref="parcelContainer">
           <div className="ui equal width aligned padded grid stackable">
             <div className="column">
