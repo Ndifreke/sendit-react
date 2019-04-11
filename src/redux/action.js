@@ -1,4 +1,10 @@
-const server = 'http://localhost:8080';
+
+const getURL = (url, local) => {
+  return local
+    ? `http://localhost:8080${url}`
+    : `https://send-app.herokuapp.com${url}`;
+};
+const devMode = false;
 
 import sendit, { authenticate, signup, signin } from '@src/api';
 const TYPES = {
@@ -7,7 +13,9 @@ const TYPES = {
   flight: 'flight',
   signin: 'signin',
   parcels: 'parcels',
-  hasLogin: 'loginSuccess'
+  hasLogin: 'loginSuccess',
+  openEditor: 'openEditor',
+  closeEditor: 'closeEditor'
 };
 
 const action = {
@@ -31,6 +39,8 @@ const action = {
       dispatch({ type: TYPES.signin, response: { status, message } });
     };
   },
+  openEditor: { type: TYPES.openEditor, editorOpen: true },
+  closeEditor: { type: TYPES.closeEditor, editorOpen: false },
   hasLogin: { type: TYPES.hasLogin, isLogin: true },
 
   flight: { type: TYPES.flight },
@@ -38,10 +48,10 @@ const action = {
   parcels: async (dispatch) => {
     let status, body;
     try {
-      const response = await sendit.get(`${server}/api/v1/users/null/parcels`);
+      const url = getURL(`/api/v1/users/null/parcels`, devMode);
+      const response = await sendit.get(url);
       body = await response.json();
       status = response.status;
-      console.log(body);
       dispatch({
         type: TYPES.parcels,
         response: { parcels: body.response, status }

@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import MapWidget from '@common/MapWidget';
 import ParcelSummary from '@common/ParcelSummary';
 import PropTypes from 'prop-types';
+import { createParcel } from '@src/api';
 
 import { LocationFinder, initMap } from '@script/GoogleMaps';
 
@@ -21,10 +22,10 @@ function mapCallback() {
 }
 
 const overrideOverlay = {
-  top: '-23px',
-  left: '-20px',
-  right: '-23px',
-  bottom: '-21px',
+  top: '-15px',
+  left: '-2%',
+  right: '-2%',
+  bottom: '-15px',
   opacity: 1,
   zIndex: 4,
   backgroundColor: 'rgba(0, 0, 0, 0.85)'
@@ -33,7 +34,9 @@ Object.assign(Modal.defaultStyles.overlay, overrideOverlay);
 
 const deleteModel = {
   content: {
-    padding: '0px'
+    left: '6%',
+    right: '6%',
+    padding: '1% 1%'
   }
 };
 
@@ -42,10 +45,65 @@ class ParcelEditor extends React.Component {
     super(props);
     this.state = {
       show: true,
-      ...this.props.parcel,
-      focusedField: ParcelEditor.FIELD.destination
+      parcel: {},
+      focusedField: ParcelEditor.FIELD.destination,
+      errorList: [],
+      isAdmin: false
     };
   }
+
+  validateSubmit = () => {
+    const {
+      shortname,
+      origin,
+      origin_lat,
+      origin_lng,
+      destination,
+      destination_lat,
+      destination_lng,
+      description,
+      weight,
+      distance,
+      isAdmin
+    } = this.state.parcel;
+    let errorList = [];
+    if (!shortname || shortname.length < 5 || shortname.search(/.+/) === -1) {
+      errorList.push(<li>Parcel must have a title</li>);
+    }
+    if (!origin || origin.search(/.+/) === -1 || origin.length < 5) {
+      errorList.push(<li>Parcel must have an Origin</li>);
+    }
+    if (
+      !destination ||
+      destination.search(/.+/) === -1 ||
+      destination.length < 5
+    ) {
+      errorList.push(<li>Parcel destination must be provided</li>);
+    }
+    if (
+      !description ||
+      description.search(/.+/) === -1 ||
+      description.length < 10
+    ) {
+      errorList.push(
+        <li>Ashort not less than 10 words that describes this parcel</li>
+      );
+    }
+    this.setState({ errorList });
+    const price = distance * 2;
+    return this.state.parcel;
+  };
+
+  onsubmit = async () => {
+    const payLoad = this.validateSubmit();
+    const response = await createParcel(payLoad);
+    if (response.status === 201) {
+      this.props.closeEditor();
+    } else {
+      console.log('failed to create');
+    }
+    console.log(response);
+  };
 
   static FIELD = {
     shortname: 0,
@@ -70,31 +128,57 @@ class ParcelEditor extends React.Component {
     const { lat, lng } = cord;
     switch (this.state.focusedField) {
       case FIELDS.destination:
-        this.setState({
-          destination: name,
-          destination_lat: lat,
-          destination_lng: lng
+        this.setState(({ parcel }) => {
+          return {
+            parcel: {
+              ...parcel,
+              destination: name,
+              destination_lat: lat,
+              destination_lng: lng
+            }
+          };
         });
         break;
       case FIELDS.location:
-        this.setState({
-          location: name,
-          location_lat: lat,
-          location_lng: lng
+        this.setState(({ parcel }) => {
+          return {
+            parcel: {
+              ...parcel,
+              location: name,
+              location_lat: lat,
+              location_lng: lng
+            }
+          };
         });
         break;
       case FIELDS.origin:
-        this.setState({
-          origin: name,
-          origin_lat: lat,
-          origin_lng: lng
+        this.setState(({ parcel }) => {
+          return {
+            parcel: {
+              ...parcel,
+              origin: name,
+              origin_lat: lat,
+              origin_lng: lng
+            }
+          };
         });
         break;
     }
+    this.setDistance();
   };
 
   componentDidMount() {
-    // LocationFinder.onLabelClick = this.onLabelClick;
+    const defaultParcel = {
+      shortname: '',
+      origin: '',
+      destination: '',
+      description: '',
+      weight: '',
+      distance: '',
+      location: 'UNCONFIRMED',
+      status: 'UNCONFIRMED'
+    };
+    this.setState({ parcel: { ...defaultParcel, ...this.props.parcel } });
   }
 
   searchMap = () => {
@@ -123,28 +207,45 @@ class ParcelEditor extends React.Component {
 
   onChange = (field) => {
     return (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const FIELDS = ParcelEditor.FIELD;
       const value = event.target.value;
       switch (field) {
         case FIELDS.origin:
-          this.setState({ origin: value });
+          this.setState(({ parcel }) => {
+            return { parcel: { ...parcel, origin: value } };
+          });
           break;
         case FIELDS.shortname:
-          this.setState({ shortname: value });
+          this.setState(({ parcel }) => {
+            return { parcel: { ...parcel, shortname: value } };
+          });
           break;
         case FIELDS.weight:
           //will not change in the future for non admin
-          this.setState({ weight: value });
+          this.setState(({ parcel }) => {
+            return { parcel: { ...parcel, weight: value } };
+          });
           break;
         case FIELDS.description:
-          this.setState({ description: value });
+          this.setState(({ parcel }) => {
+            return { parcel: { ...parcel, description: value } };
+          });
           break;
         case FIELDS.destination:
-          this.setState({ destination: value });
+          this.setState(({ parcel }) => {
+            return { parcel: { ...parcel, destination: value } };
+          });
           break;
         case FIELDS.location:
           //only admin will change this
-          this.setState({ location: value });
+          this.setState(({ parcel }) => {
+            return { parcel: { ...parcel, location: value } };
+          });
+          break;
+        default:
+          console.log('unknown field', field);
       }
     };
   };
@@ -152,26 +253,72 @@ class ParcelEditor extends React.Component {
   static propTypes = {
     parcel: PropTypes.object.isRequired
   };
-  // closeEditor = () => {
-  //   this.setState({ isEditing: false });
-  // };
 
-  getAction = () => {
+  setDistance = async () => {
+    const {
+      origin_lat,
+      origin_lng,
+      destination_lat,
+      destination_lng
+    } = this.state.parcel;
+
+    if (origin_lat && origin_lng && destination_lat && destination_lng) {
+      const originPosition = `${origin_lat},${origin_lng}`;
+      const destinationPosition = `${destination_lat},${destination_lng}`;
+      const distance = await LocationFinder.requestDistance(
+        originPosition,
+        destinationPosition
+      );
+      this.setState(({ parcel }) => {
+        const price = this.computePrice(distance, parcel.price);
+        return { parcel: { ...parcel, distance, price } };
+      });
+    }
+  };
+
+  computePrice = (distance, weight) => {
+    let multiple = 10;
+    if (/^(\d*\.)?\d+ km$/.test(distance)) {
+      multiple = 20;
+    }
+    const number = Number(
+      distance.substring(0, /[a-zA-Z]/.exec(distance).index)
+    );
+    return weight ? number * weight * multiple : number * multiple * 100;
+  };
+
+  parcelSubmitAction = () => {
     return (
-      <button className="ui orange button fluid" title="edit" onClick={''}>
+      <button
+        className="ui orange button fluid"
+        title="edit"
+        onClick={this.onsubmit}>
         <i className="edit outline icon" /> Send
       </button>
     );
   };
 
-  componentDidMount() {}
   render() {
-    const { shortname, weight, destination, origin, description } = this.state;
+    const {
+      shortname,
+      weight,
+      destination,
+      origin,
+      description,
+      isAdmin,
+      location
+    } = this.state.parcel;
+
+    const { errorList } = this.state;
     const { onChange } = this;
     const Fields = ParcelEditor.FIELD;
 
     return (
       <Modal isOpen={true} style={deleteModel}>
+        <div style={{ float: 'right' }} onClick={this.props.closeEditor}>
+          <i className="close icon large red pointer" />
+        </div>
+
         <div ref="parcelContainer">
           <div className="ui equal width aligned padded grid stackable">
             <div className="column">
@@ -186,6 +333,7 @@ class ParcelEditor extends React.Component {
                       value={shortname}
                     />
                   </div>
+
                   <div className="field">
                     <label>Weight (kg)* </label>
                     <input
@@ -209,6 +357,7 @@ class ParcelEditor extends React.Component {
                       value={destination}
                     />
                   </div>
+
                   <div className="field">
                     <label>Origin *</label>
                     <input
@@ -220,24 +369,42 @@ class ParcelEditor extends React.Component {
                     />
                   </div>
                 </div>
+
                 <div className="two fields">
                   <div className="field">
                     <label>Description</label>
-                    <textarea
+                    <input
                       onChange={onChange(Fields.description)}
                       rows={1}
                       value={description}
                     />
                   </div>
+
                   <div className="field">
-                    <label>Done</label>
-                    {this.getAction()}
+                    <label>Location</label>
+                    <input
+                      disabled={!isAdmin}
+                      onChange={onChange(Fields.location)}
+                      value={location}
+                    />
                   </div>
                 </div>
+
+                <div className="field">
+                  <div className="ui error message visible">
+                    <i className="close icon" />
+                    <div className="header">
+                      There were some errors with your submission
+                    </div>
+                    <ul className="list">{errorList}</ul>
+                  </div>
+                </div>
+                <div className="field">{this.parcelSubmitAction()}</div>
               </div>
             </div>
+
             <ParcelSummary
-              parcel={{ ...this.state }}
+              parcel={{ ...this.state.parcel }}
               Action={{ ActionComponent: null }}
             />
           </div>

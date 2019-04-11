@@ -1,3 +1,10 @@
+const getURL = (url, local) => {
+  return local
+    ? `http://localhost:8080${url}`
+    : `https://send-app.herokuapp.com${url}`;
+};
+const devMode = false;
+
 export const request = function(url, callback) {
   const req = new XMLHttpRequest();
   req.open('GET', url);
@@ -13,7 +20,7 @@ export const request = function(url, callback) {
     };
     req.send();
   });
-}
+};
 
 class SendIt {
   static async request(url, data, override) {
@@ -39,8 +46,8 @@ class SendIt {
     });
   }
 
-  static async put(url, data, devMode = false) {
-    url = devMode ? `http://localhost:8080${url}` : url;
+  static async put(url, data) {
+    url = getURL(url, devMode);
     return await SendIt.request(url, data, {
       method: 'PUT'
     });
@@ -57,7 +64,8 @@ export default SendIt;
 
 export const authenticate = async () => {
   try {
-    const response = await SendIt.get('http://localhost:8080/api/v1/auth');
+    const url = getURL('/api/v1/auth', devMode);
+    const response = await SendIt.get(url);
     const json = await response.json();
     if (response.status === 200) {
       return Promise.resolve(true);
@@ -71,10 +79,8 @@ export const authenticate = async () => {
 
 export const signup = async (data) => {
   try {
-    const response = await SendIt.post(
-      'http://localhost:8080/api/v1/auth/signup',
-      data
-    );
+    const url = getURL('/api/v1/auth/signup', devMode);
+    const response = await SendIt.post(url, data);
     const json = await response.json();
     json.status = response.status;
     return Promise.resolve(json);
@@ -86,10 +92,21 @@ export const signup = async (data) => {
 
 export const signin = async (data) => {
   try {
-    const response = await SendIt.post(
-      'http://localhost:8080/api/v1/auth/login',
-      data
-    );
+    const url = getURL('/api/v1/auth/login', devMode);
+    const response = await SendIt.post(url, data);
+    const json = await response.json();
+    json.status = response.status;
+    return Promise.resolve(json);
+  } catch (err) {
+    console.log('Error Occurred during signup', err.message);
+  }
+  return Promise.reject('error rejectas');
+};
+
+export const createParcel = async (data) => {
+  try {
+    const url = getURL('/api/v1/parcels', devMode);
+    const response = await SendIt.post(url, data);
     const json = await response.json();
     json.status = response.status;
     return Promise.resolve(json);
