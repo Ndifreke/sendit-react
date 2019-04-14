@@ -1,4 +1,3 @@
-const { getDom } = require("./dom");
 
 (module.exports.fetch = async function() {
   return {
@@ -16,4 +15,3 @@ const { getDom } = require("./dom");
     };
   });
 
-  module.exports.getDom = getDom;

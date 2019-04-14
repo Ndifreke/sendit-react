@@ -4,7 +4,6 @@ import Header from "../common/Header";
 import "./home.css";
 import "@asset/style/main.css";
 import "@asset/style/shared.css";
-// import "semantic-ui-css/semantic.min.css";
 class Home extends React.Component {
 
 

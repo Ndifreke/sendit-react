@@ -40,7 +40,7 @@ class ParcelSummarry extends React.Component {
 
           <div className="item">
             <div className="ui container">
-              <div className="right floated content">{created_at}</div>
+              <div className="right floated content">{new Date(created_at).toDateString()}</div>
               <i className="clock outline icon" />
               <div className="ui label">created</div>
             </div>

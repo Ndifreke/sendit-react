@@ -5,7 +5,6 @@ import MapWidget from '@common/MapWidget';
 import ParcelSummary from '@common/ParcelSummary';
 import PropTypes from 'prop-types';
 import { createParcel } from '@src/api';
-
 import { LocationFinder, initMap } from '@script/GoogleMaps';
 
 window.LocationFinder = LocationFinder;
@@ -15,7 +14,6 @@ window.mapCallback = mapCallback;
 when Google map finishes loading, this function will be called
 * and the map script will be contained in a global google object as maps
 */
-
 function mapCallback() {
   document.querySelector('#position-container').style.display = 'block';
   initMap(google.maps);
@@ -86,7 +84,7 @@ class ParcelEditor extends React.Component {
       description.length < 10
     ) {
       errorList.push(
-        <li>Ashort not less than 10 words that describes this parcel</li>
+        <li>A note not less than 10 words that describes this parcel</li>
       );
     }
     this.setState({ errorList });
@@ -312,10 +310,9 @@ class ParcelEditor extends React.Component {
     const { errorList } = this.state;
     const { onChange } = this;
     const Fields = ParcelEditor.FIELD;
-
     return (
-      <Modal isOpen={true} style={deleteModel}>
-        <div style={{ float: 'right' }} onClick={this.props.closeEditor}>
+      <Modal isOpen={true} style={deleteModel} ariaHideApp={false}>
+        <div style={{ textAlign: 'right' }} onClick={this.props.closeEditor}>
           <i className="close icon large red pointer" />
         </div>
 
@@ -391,10 +388,12 @@ class ParcelEditor extends React.Component {
                 </div>
 
                 <div className="field">
-                  <div className="ui error message visible">
-                    <i className="close icon" />
+                  <div
+                    className={`ui error message ${
+                      errorList.length === 0 ? '' : 'visible'
+                    }`}>
                     <div className="header">
-                      There were some errors with your submission
+                      Your submission has these errors
                     </div>
                     <ul className="list">{errorList}</ul>
                   </div>

@@ -87,6 +87,7 @@ class Parcel extends React.Component {
       location,
       price
     } = this.props.parcel;
+    // const { getDay, getMonth, getFullYear } = new Date();
     const { deleteOpen, isHidden } = this.state;
     return (
       <div>
@@ -108,22 +109,24 @@ class Parcel extends React.Component {
           </div>
           <div>
             <div className="ui mini list">
-              <div className="item">{shortname}</div>
-              <div className="item">{created_at}</div>
-              <div className="item">{status} </div>
+              <div className="item"><strong>{shortname}</strong></div>
+              <div className="item">
+                <strong>{new Date(created_at).toDateString()}</strong>
+              </div>
+              <div className="item"><strong>{status}</strong> </div>
             </div>
           </div>
         </div>
         <div ref="parcelContainer">
           <div className="ui two equal width aligned padded grid stackable parcelContent">
-            <div className="column" size='2'>
+            <div className="column" size="2">
               <strong className="ui container">{description}</strong>
             </div>
             <div className="column">
-            <ParcelSummary
-              parcel={this.props.parcel}
-              Action={this.getAction()}
-            />
+              <ParcelSummary
+                parcel={this.props.parcel}
+                Action={this.getAction()}
+              />
             </div>
           </div>
         </div>
