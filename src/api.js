@@ -3,14 +3,14 @@ const getURL = (url, local) => {
     ? `http://localhost:8080${url}`
     : `https://send-app.herokuapp.com${url}`;
 };
-const devMode = false;
+const devMode = true;
 
-export const request = function(url, callback) {
+export const request = function (url, callback) {
   const req = new XMLHttpRequest();
   req.open('GET', url);
 
   return new Promise((resolve) => {
-    req.onreadystatechange = function() {
+    req.onreadystatechange = function () {
       if (req.status === 200 && req.readyState === 4) {
         if (callback) {
           callback(req.responseText);
@@ -111,7 +111,18 @@ export const createParcel = async (data) => {
     json.status = response.status;
     return Promise.resolve(json);
   } catch (err) {
-    console.log('Error Occurred during signup', err.message);
   }
   return Promise.reject('error rejectas');
+};
+
+export const fetchParcels = async () => {
+  try {
+    const url = getURL(`/api/v1/users/null/parcels`, devMode);
+    const response = await SendIt.get(url);
+    const body = await response.json();
+    const status = response.status;
+    return Promise.resolve({ parcels: body.response, status });
+  } catch (error) {
+    return { parcels: [], status };
+  }
 };

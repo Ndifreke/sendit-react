@@ -23,9 +23,13 @@ class EditableParcel extends React.Component {
   };
 
   closeEditor = async () => {
-    console.log('should close editor')
     this.props.dispatch(action.closeEditor);
     await this.props.dispatch(action.parcels);
+
+    //reset the previous parcel in memory so that opening the
+    //editor to create a new parcel we wont have previous parcel filling
+    // in the form
+    this.setState({ parcel: {} });
   };
 
   listParcels = () => {
@@ -39,6 +43,10 @@ class EditableParcel extends React.Component {
     await this.props.dispatch(action.parcels);
   }
 
+  searchParcel = async () => {
+    console.log('searching parcels');
+  };
+
   static getDerivedStateFromProps(props) {
     return { parcels: props.parcels.list, requestEdit: props.editorOpen };
   }
@@ -48,7 +56,22 @@ class EditableParcel extends React.Component {
     return (
       <Fragment>
         <Header />
+
         <div className="ui container">
+<div className="ui right action left input">
+  <input type="text" placeholder="Search"/>
+  <div className="ui basic floating dropdown button" style={{lineHeight:"0em"}}>
+    <div className="text">This Page</div>
+    <i className="dropdown icon"></i>
+    <div className="menu">
+      <div className="item">Email</div>
+      <div className="item">Parcel ID</div>
+    </div>
+  </div>
+</div>
+
+
+
           {requestEdit || requestCreate ? (
             <ParcelEditor closeEditor={this.closeEditor} parcel={parcel} />
           ) : null}
