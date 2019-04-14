@@ -15,6 +15,20 @@ export const validatePassword = (input) => {
   return validateName(input);
 };
 
+export const validateParcelField = (field, option) => {
+  let minimumCharacter;
+  if (option) {
+    minimumCharacter = option.min || 5;
+  }
+  try {
+    return (!field ||
+      field.search(/.+/) === -1 ||
+      field.length < minimumCharacter)
+  } catch (e) {
+    return false;
+  }
+}
+
 export const styleInput = (valid) => {
   return valid ? getStyles().field : getStyles().fieldError;
 };

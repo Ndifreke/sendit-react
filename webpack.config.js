@@ -1,16 +1,21 @@
 let path = require('path');
 const fs = require('fs');
+const Dotenv = require("dotenv-webpack");
+const dotenv = require('dotenv');
+
+dotenv.config();
 const root = __dirname;
 
 const src = path.join(root, './src');
 const HtmlPlugin = require('html-webpack-plugin');
 const dist = path.join(root, 'dist');
-const javascript = path.join(dist, 'javascript');
 
 const htmlPluginConfig = new HtmlPlugin({
   template: path.join(src, 'index.html'),
   filename: path.join(dist, 'index.html')
 });
+
+const dotevn = new Dotenv();
 
 function getJSXFiles(filePath) {
   const fileList = fs.readdirSync(filePath);
@@ -32,8 +37,8 @@ function JSXEntries(jsxList) {
   return entries;
 }
 
-const mode = process.env.SETUP || "development";
-console.log(mode,'>>>>>>>>')
+const mode = process.env.WEBPACK || "production";
+
 module.exports = {
   stats: {
     assets: true,
@@ -82,7 +87,7 @@ module.exports = {
       '@redux': path.join(src, 'redux')
     }
   },
-  plugins: [htmlPluginConfig],
+  plugins: [htmlPluginConfig, dotevn],
   devServer: {
     port: 8000,
     open: true,

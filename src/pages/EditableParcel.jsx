@@ -8,7 +8,6 @@ import Header from '@common/Header';
 class EditableParcel extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
     this.state = {
       requestEdit: false,
       parcels: [], //list of parcels received from server
