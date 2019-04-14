@@ -1,0 +1,15 @@
+.hide {
+  display: none !important;
+}
+
+/* .ui.padded.grid:not(.vertically):not(.horizontally) {
+  margin: 0!important;
+  display: none !important;
+} */
+
+.modal {
+  margin-top: '0px' !important;
+  margin-left: 'auto' !important;
+  margin-right: 'auto' !important;
+}
+

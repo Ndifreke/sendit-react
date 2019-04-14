@@ -1,0 +1,525 @@
+html {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background: whitesmoke;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.viewport {
+    visibility: hidden;
+}
+
+#signupUI,
+#signinUi {
+    padding: 7%;
+}
+
+li,
+ul,
+ol {
+    list-style: none;
+    padding: 0px;
+}
+
+ul.dashboard li {
+    border-bottom: 1px solid lightsteelblue;
+}
+
+.stick-top-centered {
+    top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    z-index: 2;
+    position: sticky;
+    width: fit-content;
+    margin: auto;
+}
+
+#navigation-list {
+    margin-right: 20px;
+}
+
+.dashLink {
+    padding: 20px;
+    margin: 2px;
+    color: ghostwhite;
+    display: block;
+}
+
+.dashLink:hover,
+.active {
+    background-color: #FF5722;
+    color: white;
+    transition: 0.4s;
+    text-transform: uppercase;
+
+}
+
+#input-title {
+    text-align: start !important;
+    font-weight: bolder;
+}
+
+#dashboard {
+    padding-top: 5vh;
+    background-color: #323544;
+    position: fixed;
+    top: 0;
+    left: 0px;
+    width: 270px;
+    z-index: 4001;
+    height: 100vh;
+    display: none;
+}
+
+@keyframes animate-success {
+    from {
+        visibility: visible;
+        opacity: 0.993;
+    }
+
+    to {
+        opacity: 0.021;
+    }
+}
+
+@keyframes animate-failure {
+    from {
+        visibility: visible;
+        background: rgba(255, 2, 2, 0.925);
+    }
+
+    to {
+        background: rgba(255, 2, 2, 0.021);
+    }
+}
+
+@keyframes bounce {
+    20% {
+        bottom: 55%;
+    }
+
+    50% {
+        bottom: 47%;
+    }
+
+    75% {
+        bottom: 50%;
+    }
+
+    91% {
+        bottom: 47%;
+    }
+}
+
+@keyframes wait-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+
+    50% {
+        transform: rotate(-360deg)
+    }
+
+    100% {
+        transform: rotate(-0deg);
+    }
+}
+
+.wait-spin {
+    animation: wait-spin 2.5s infinite;
+}
+
+@keyframes load-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.load-spin {
+    animation: load-spin 2.5s infinite;
+}
+
+.bounce {
+    animation: bounce 2.5s infinite;
+}
+
+.fixed-centered,
+.wait-message {
+    position: fixed;
+    left: 50%;
+    bottom: 47%;
+    z-index: 50;
+}
+
+#loader {
+    visibility: hidden;
+}
+
+circle[class='c1'] {
+    stroke: #F90044;
+}
+
+#message-alert {
+    position: fixed;
+    top: 0px;
+    visibility: hidden;
+    font-size: 16px;
+    padding: 1px;
+    border-radius: 1px;
+    padding: 2px 19px;
+    vertical-align: middle;
+    z-index: 5000;
+}
+
+.message-failure {
+    color: white;
+    animation: animate-failure 20s;
+}
+
+.message-success {
+    background: rgba(0, 153, 0);
+    color: white;
+    animation: animate-success 20s;
+}
+
+.message-inform {
+    background: rgb(255, 87, 34);
+    color: white;
+    animation: animate-success 20s;
+}
+
+#dashboard-closer {
+    position: sticky;
+    top: 1px;
+    margin-top: -29px;
+    left:58%;
+    margin-right: -15px;
+}
+
+.menu-btn {
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    margin-left: -4px;
+    width: 31px;
+    height: 26px;
+    cursor: pointer;
+    outline: none;
+    border-style: none;
+}
+
+#expand-btn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: absolute;
+    right: 3px;
+    bottom: 8px;
+    height: 45px;
+}
+
+#dash-expand {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: static;
+    background: none;
+    margin-left: 98px;
+}
+select{
+    background: inherit;
+    outline: none;
+    border-radius: 1px;
+    padding:2px 5px;
+}
+
+
+.ack-delete,
+.ack-cancel,
+.profile-icon,
+.icon,
+.steer-cancel-icon,
+.steer-icon,
+.ferry-icon,
+.processed-icon,
+.unprocessed-icon,
+.stats-icon,
+.money-icon,
+.phone-icon,
+.parcel-icon,
+.search-icon,
+.home-icon,
+.distance-icon,
+.email-icon,
+.scale-icon,
+.location-icon,
+.refresh-icon,
+.processing,
+.menu-btn,
+.close-btn,
+.home-location-icon {
+    display: inline-block;
+    background-image: url("../images/icons/sprite.svg");
+    width: 30px;
+    height: 24px;
+    border-style: none;
+    background-position-x: 4px;
+    outline: none;
+    background-repeat: no-repeat;
+}
+.search-icon{
+    background-position-x: 1px;
+    vertical-align: middle;
+    background-color: transparent;
+    background-position-y: -578px;
+}
+.ack-delete{
+    background-position-y:  -286px;
+}
+.ack-cancel{
+    background-position-y:  -213px;
+}
+.home-location-icon{
+    vertical-align: middle;
+    background-position-y:  -798px;
+}
+
+.close-btn{
+    background-position-y: -942px;
+}
+.menu-btn{
+    background-color: transparent;
+    background-position-y: -906px;
+}
+
+.processing {
+    background-position-y: -680px;
+}
+
+.steer-cancel-icon {
+    background-position-y: -105px;
+}
+
+.refresh-icon {
+    cursor: pointer;
+    vertical-align: bottom;
+    background-position-y: -724px;
+}
+
+@keyframes tilt {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    50% {
+        transform: rotate(180deg)
+    }
+
+    80% {
+        transform: rotate(0deg)
+    }
+}
+
+.refresh-icon:hover {
+    animation: tilt 1s;
+}
+
+.steer-icon {
+    background-position-y: -651px;
+}
+
+.stats-icon {
+    background-position-y: -31px;
+}
+
+.no-padding {
+    padding: 0px !important;
+}
+
+.profile-icon {
+    background-position-y: -320px;
+}
+
+.home-icon {
+    background-position-y: -431px;
+}
+
+.money-icon {
+    background-position-y: -393px;
+}
+
+.ferry-icon {
+    background-position-y: 5px;
+}
+
+.processed-icon {
+    background-position-y: -145px;
+}
+
+.unprocessed-icon {
+    background-position-y: -103px;
+}
+
+.location-icon {
+    background-position-y: -759px;
+}
+
+.distance-icon {
+    background-position-y: -467px;
+}
+
+.scale-icon {
+    background-position-y: -539px;
+}
+
+
+input[type=checkbox] {
+    display: none;
+}
+
+strong {
+    font-size: smaller;
+}
+
+fieldset {
+    border: none;
+    width: -webkit-fill-available;
+}
+
+.no-border {
+    border: none !important;
+}
+
+input[type=checkbox]+label {
+    background-size: 45px 45px;
+    min-width: 45px;
+    min-height: 45px;
+    display: inline-block;
+}
+
+.inline {
+    display: inline-flex;
+}
+
+.flex {
+    display: flex;
+    width: 100%;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.block {
+    display: block;
+}
+
+/* for desktop */
+
+@media screen and(min-width:1500px) {}
+
+/*   tablet size */
+@media screen and (min-width:1000px) {
+
+    .hide-in-desktop {
+        display: none;
+    }
+
+    #logo {
+        left: 290px;
+    }
+}
+
+@media screen and (max-width:1000px) {
+    .hide-in-mobile {
+        display: none;
+    }
+}
+
+@media screen and (min-width:760px) {
+
+    #dash-expand {
+        display: none;
+    }
+
+    .package-content hr {
+        margin: 15px;
+    }
+
+    .package-content {
+        display: flex;
+    }
+
+    #main-content {
+        margin-left: 250px;
+    }
+
+    #dashboard-closer {
+        display: none;
+    }
+
+    #reveal-btn {
+        display: inline;
+    }
+
+    .package-description {
+        width: 45%;
+    }
+
+    #new-parcel-viewport {
+        display: block;
+    }
+
+    aside#dashboard {
+        display: block;
+    }
+
+    #new-parcel-viewport {
+        display: flex;
+    }
+
+    #main {
+        margin-left: 4%;
+    }
+}
+
+/* for mobile */
+@media screen and (max-width : 760px) {
+
+    div#services {
+        display: block;
+    }
+
+    #signupUI {
+        width: 80%;
+    }
+
+    #dashboard-closer {
+        display: block;
+    }
+
+}

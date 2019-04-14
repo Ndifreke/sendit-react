@@ -1,0 +1,49 @@
+i.icon {
+  background-image: none !important;
+}
+
+.ui.label:last-child {
+  background: none;
+}
+
+.parcel {
+  /* border: 1px solid black !important; */
+}
+
+.parcelContent{
+  border:1px solid #0000001f;
+}
+
+.ui.grid > [class*='equal width'].row,
+.ui[class*='equal width'].grid > .row {
+  table-layout: fixed;
+  width: inherit !important;
+
+}
+.ui.sidebar{
+}
+
+.button {
+  outline: none !important;
+}
+
+.parcel-header {
+  font-family: roboto;
+  font-size: large;
+  margin-top: 19px;
+  padding: 5px;
+  background-color: rgb(50, 53, 68);
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  color: white;
+  position: relative;
+}
+
+.header-right {
+  margin: 21px 0px;
+  position: absolute;
+  right: 0px;
+  width: fit-content;
+  display: inline-block;
+}
+
