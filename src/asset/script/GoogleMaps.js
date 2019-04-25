@@ -11,7 +11,8 @@ class LocationFinder {
     this.reversecodingUrl =
       'https://maps.googleapis.com/maps/api/geocode/json?';
     LocationFinder.apiLocation = 'https://maps.googleapis.com/maps/api';
-    LocationFinder.key = 'AIzaSyCVG4POFIVEKqFALXWDJKSF1o1HPaUI8zk';
+
+    LocationFinder.key = "AIzaSyC512UfEJu9d4yjX1F6Z7gfavLeaHKmtZY";
     this.map = this.createMap(this.maps.Map, this.latitude, this.longitude);
   }
 

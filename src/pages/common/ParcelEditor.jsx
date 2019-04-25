@@ -6,6 +6,7 @@ import ParcelSummary from '@common/ParcelSummary';
 import PropTypes from 'prop-types';
 import { createParcel } from '@src/api';
 import { LocationFinder, initMap } from '@script/GoogleMaps';
+import { validateParcelField } from '@script/util';
 
 window.LocationFinder = LocationFinder;
 window.mapCallback = mapCallback;
@@ -54,41 +55,28 @@ class ParcelEditor extends React.Component {
     const {
       shortname,
       origin,
-      origin_lat,
-      origin_lng,
       destination,
-      destination_lat,
-      destination_lng,
       description,
-      weight,
-      distance,
-      isAdmin
+      distance
     } = this.state.parcel;
-    let errorList = [];
-    if (!shortname || shortname.length < 5 || shortname.search(/.+/) === -1) {
-      errorList.push(<li>Parcel must have a title</li>);
+    let errors = [];
+    if (!validateParcelField(shortname)) {
+      errors.push(<li key={1}>Title is is less than 5 characters</li>);
     }
-    if (!origin || origin.search(/.+/) === -1 || origin.length < 5) {
-      errorList.push(<li>Parcel must have an Origin</li>);
+    if (!validateParcelField(origin)) {
+      errors.push(<li key={2}>Origin is less than 5 characters</li>);
     }
-    if (
-      !destination ||
-      destination.search(/.+/) === -1 ||
-      destination.length < 5
-    ) {
-      errorList.push(<li>Parcel destination must be provided</li>);
+    if (!validateParcelField(destination)) {
+      errors.push(<li key={3}>Destination is less than 5 characters</li>);
     }
-    if (
-      !description ||
-      description.search(/.+/) === -1 ||
-      description.length < 10
-    ) {
-      errorList.push(
-        <li>A note not less than 10 words that describes this parcel</li>
+    if (!validateParcelField(description, { min: 10 })) {
+      errors.push(
+        <li key={4}>
+          A note not less than 10 words that describes this parcel
+        </li>
       );
     }
-    this.setState({ errorList });
-    const price = distance * 2;
+    this.setState({ errorList: errors });
     return this.state.parcel;
   };
 

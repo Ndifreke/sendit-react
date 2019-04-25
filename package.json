@@ -10,6 +10,7 @@
     "babel-jest": "^24.5.0",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
+    "dotenv-webpack": "^1.7.0",
     "express": "latest",
     "jest-transform-stub": "^2.0.0",
     "jsdom": "^14.0.0",

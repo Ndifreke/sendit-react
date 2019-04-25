@@ -14,7 +14,7 @@ class MapWidget extends React.Component {
   componentDidMount() {
     LocationFinder.captureLabelData = this.props.onClick;
     loadscript(
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyCVG4POFIVEKqFALXWDJKSF1o1HPaUI8zk&callback=mapCallback'
+      `https://maps.googleapis.com/maps/api/js?key=AIzaSyC512UfEJu9d4yjX1F6Z7gfavLeaHKmtZY&callback=mapCallback`
     );
   }
 

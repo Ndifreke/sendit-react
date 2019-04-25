@@ -37,7 +37,7 @@ class Parcel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteOpen: false
+      deleteOpen: false,
     };
   }
 
@@ -81,13 +81,7 @@ class Parcel extends React.Component {
       shortname,
       status,
       created_at,
-      origin,
-      destination,
-      owner,
-      location,
-      price
     } = this.props.parcel;
-    // const { getDay, getMonth, getFullYear } = new Date();
     const { deleteOpen, isHidden } = this.state;
     return (
       <div>
