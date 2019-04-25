@@ -15,9 +15,10 @@ export const request = function (url, callback) {
   });
 };
 
+const SERVER_HOST = process.env.SERVER_HOST || "https://send-app.herokuapp.com"
+
 class SendIt {
   static async request(url, data, override) {
-    console.log(process.env.SERVER, "<<>>>", url);
     let urlEncoded = '';
     for (const k in data) {
       urlEncoded += `${k}=${data[k]}&`;
@@ -31,7 +32,7 @@ class SendIt {
       }
     };
     const init = override ? Object.assign(payload, override) : payload;
-    return await fetch(process.env.SERVER+url, init);
+    return await fetch(SERVER_HOST+url, init);
   }
 
   static async get(url, callback) {
